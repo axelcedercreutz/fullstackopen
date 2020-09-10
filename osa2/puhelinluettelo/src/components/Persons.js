@@ -2,9 +2,12 @@ import React from "react";
 
 const Persons = (props) => {
   return props.filteredPeople.map((person) => (
-    <p key={person.name}>
-      {person.name} {person.number}
-    </p>
+    <div key={person.id}>
+      <p>
+        {person.name} {person.number}
+      </p>
+      <button onClick={() => props.handleDelete(person)}>Delete</button>
+    </div>
   ));
 };
 
