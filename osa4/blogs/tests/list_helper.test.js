@@ -35,6 +35,36 @@ const listWithTwoBlogs = [
   },
 ];
 
+const listWithThreeBlogs = [
+  {
+    _id: "5a422aa71b54a676234d17f8",
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url:
+      "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 7,
+    __v: 0,
+  },
+  {
+    _id: "5a422aa71b54a676234d17f1",
+    title: "Go To Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url:
+      "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 7,
+    __v: 0,
+  },
+  {
+    _id: "5a422aa71b54a676234d17f4",
+    title: "Go To Statement Considered",
+    author: "Jack W. Dijkstra",
+    url:
+      "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 4,
+    __v: 0,
+  },
+];
+
 test("dummy returns one", () => {
   const result = listHelper.dummy(listWithNoBlog);
   expect(result).toBe(1);
@@ -67,5 +97,14 @@ describe("favorite blog", () => {
   test("when list has two blogs, equals larger of the two", () => {
     const result = listHelper.favoriteBlog(listWithTwoBlogs);
     expect(result.likes).toEqual(7);
+  });
+});
+
+describe("favorite blog", () => {
+  test("when list has two blogs, equals larger of the two", () => {
+    console.log(listWithThreeBlogs);
+    const result = listHelper.favoriteBlog(listWithThreeBlogs);
+    console.log(result);
+    // expect(result.likes).mostBlogs(7);
   });
 });

@@ -1,4 +1,5 @@
 var _ = require("lodash");
+const blog = require("../models/blog");
 const dummy = (blogs) => {
   return 1;
 };
@@ -15,8 +16,18 @@ const favoriteBlog = (blogs) => {
   return blogs[0];
 };
 
+const mostBlogs = (blogs) => {
+  const newArray = _.groupBy(
+    blogs.map((b) => b.author),
+    "length"
+  );
+  console.log(newArray);
+  return newArray;
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };
