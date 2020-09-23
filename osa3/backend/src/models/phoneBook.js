@@ -1,8 +1,8 @@
-const mongoose = require("mongoose")
-const uniqueValidator = require("mongoose-unique-validator")
+const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
-mongoose.set("useFindAndModify", false)
-mongoose.set("useCreateIndex", true)
+mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
 
 const url = process.env.MONGODB_URI
 
@@ -12,10 +12,10 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log("connected to MongoDB")
+    console.log('connected to MongoDB')
   })
   .catch((error) => {
-    console.log("error connecting to MongoDB:", error.message)
+    console.log('error connecting to MongoDB:', error.message)
   })
 
 const phoneBookSchema = new mongoose.Schema({
@@ -30,7 +30,7 @@ const phoneBookSchema = new mongoose.Schema({
   },
 })
 
-phoneBookSchema.set("toJSON", {
+phoneBookSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -40,4 +40,4 @@ phoneBookSchema.set("toJSON", {
 
 phoneBookSchema.plugin(uniqueValidator)
 
-module.exports = mongoose.model("PhoneBook", phoneBookSchema)
+module.exports = mongoose.model('PhoneBook', phoneBookSchema)
