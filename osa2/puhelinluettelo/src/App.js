@@ -59,16 +59,28 @@ const App = () => {
           });
       }
     } else {
-      apiService.create(newPerson).then((returnedPerson) => {
-        setPersons([...persons, returnedPerson]);
-        setNotificationMessage(`${returnedPerson.name} was added to phonebook`);
-        setNotificationType("success");
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
-        setNewName("");
-        setNewPhone("");
-      });
+      apiService
+        .create(newPerson)
+        .then((returnedPerson) => {
+          setPersons([...persons, returnedPerson]);
+          setNotificationMessage(
+            `${returnedPerson.name} was added to phonebook`
+          );
+          setNotificationType("success");
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+          setNewName("");
+          setNewPhone("");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          setNotificationMessage(`${error.response.data.error}`);
+          setNotificationType("error");
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+        });
     }
   };
 
