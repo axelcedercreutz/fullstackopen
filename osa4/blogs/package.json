@@ -1,0 +1,11 @@
+{
+  "name": "blogs",
+  "version": "0.0.1",
+  "description": "blog list application that allows users to save information about interesting blogs they have stumbled across on the internet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Axel Cedercreutz",
+  "license": "ISC"
+}
