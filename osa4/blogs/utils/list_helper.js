@@ -17,12 +17,24 @@ const favoriteBlog = (blogs) => {
 };
 
 const mostBlogs = (blogs) => {
-  const newArray = _.groupBy(
-    blogs.map((b) => b.author),
-    "length"
-  );
-  console.log(newArray);
-  return newArray;
+  const newArray = _(blogs)
+    .groupBy((x) => x.author)
+    .map((value, key) => ({ author: key, blogs: value.length }))
+    .value();
+  const mostBlogs = newArray.reduce((a, b) => (b.blogs > a.blogs ? b : a));
+  return mostBlogs;
+};
+
+const mostLikes = (blogs) => {
+  const newArray = _(blogs)
+    .groupBy((x) => x.author)
+    .map((value, key) => ({
+      author: key,
+      likes: value.reduce((a, b) => a + b.likes, 0),
+    }))
+    .value();
+  const mostLikes = newArray.reduce((a, b) => (b.likes > a.likes ? b : a));
+  return mostLikes;
 };
 
 module.exports = {
@@ -30,4 +42,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };

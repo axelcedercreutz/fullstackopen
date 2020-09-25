@@ -51,7 +51,7 @@ const listWithThreeBlogs = [
     author: "Edsger W. Dijkstra",
     url:
       "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 7,
+    likes: 5,
     __v: 0,
   },
   {
@@ -100,11 +100,16 @@ describe("favorite blog", () => {
   });
 });
 
-describe("favorite blog", () => {
-  test("when list has two blogs, equals larger of the two", () => {
-    console.log(listWithThreeBlogs);
-    const result = listHelper.favoriteBlog(listWithThreeBlogs);
-    console.log(result);
-    // expect(result.likes).mostBlogs(7);
+describe("Most blogs", () => {
+  test("when list of 3 blogs has two blogs from same author, return that author and blog amout 2", () => {
+    const result = listHelper.mostBlogs(listWithThreeBlogs);
+    expect(result.blogs).toEqual(2);
+  });
+});
+
+describe("Most likes", () => {
+  test("when list has two blogs from same author, return that author and sum of like amount", () => {
+    const result = listHelper.mostLikes(listWithThreeBlogs);
+    expect(result.likes).toEqual(12);
   });
 });
