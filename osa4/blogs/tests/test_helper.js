@@ -6,6 +6,7 @@ const initialBlogs = [
     author: "Axel Cedercreutz",
     url: "www.aced.fi",
     likes: 3,
+    id: "1",
   },
 ];
 
