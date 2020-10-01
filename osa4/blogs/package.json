@@ -11,11 +11,14 @@
   "author": "Axel Cedercreutz",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "envdot": "0.0.3",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
-    "mongoose": "^5.10.6"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.6",
+    "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
     "jest": "^26.4.2",
