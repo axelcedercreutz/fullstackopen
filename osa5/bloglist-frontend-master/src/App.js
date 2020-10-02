@@ -3,20 +3,18 @@ import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
+import BlogForm from "./components/BlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
   const [user, setUser] = useState(null);
   const [notificationType, setNotificationType] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    updateBlogs();
   }, []);
 
   useEffect(() => {
@@ -27,6 +25,11 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  const updateBlogs = async () => {
+    const blogs = await blogService.getAll();
+    setBlogs(blogs);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -49,23 +52,14 @@ const App = () => {
     }
   };
 
-  const handleAddBlog = async (event) => {
+  const handleAddBlog = async (event, blog) => {
     event.preventDefault();
-    const newBlog = {
-      title,
-      author,
-      url,
-    };
-    await blogService.create(newBlog);
-    setNotificationMessage(`A new blog ${title} by ${user.name} added`);
+    setNotificationMessage(`A new blog ${blog.title} by ${user.name} added`);
     setNotificationType("success");
     setTimeout(() => {
       setNotificationMessage(null);
     }, 5000);
-    setTitle("");
-    setAuthor("");
-    setUrl("");
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    updateBlogs();
   };
 
   const renderUserInfo = () => (
@@ -106,50 +100,25 @@ const App = () => {
     </form>
   );
 
-  const renderAddBlog = () => (
-    <form onSubmit={handleAddBlog}>
-      <div>
-        title
-        <input
-          type="text"
-          value={title}
-          name="title"
-          onChange={({ target }) => setTitle(target.value)}
-          required
-        />
-      </div>
-      <div>
-        Author
-        <input
-          type="text"
-          value={author}
-          name="author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        URL
-        <input
-          type="text"
-          value={url}
-          name="url"
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button type="submit">Create</button>
-    </form>
-  );
-
   const renderLoggedInPage = () => (
     <div>
       {renderUserInfo()}
-      {renderAddBlog()}
+      <BlogForm handleAddBlog={(e, blog) => handleAddBlog(e, blog)} />
       {renderBlogs()}
     </div>
   );
 
   const renderBlogs = () =>
-    blogs.map((blog) => <Blog key={blog.id} blog={blog} />);
+    blogs
+      .sort((a, b) => b.likes - a.likes)
+      .map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          updateBlogs={() => updateBlogs()}
+          username={user.username}
+        />
+      ));
 
   return (
     <div>
