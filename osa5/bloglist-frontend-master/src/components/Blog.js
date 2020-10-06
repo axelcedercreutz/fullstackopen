@@ -28,7 +28,9 @@ const Blog = React.forwardRef(({ blog, updateBlog, deleteBlog, username }) => {
       </div>
       <p>{blog.user && blog.user.name}</p>
       {blog.user && blog.user.username === username && (
-        <button onClick={() => handleDelete()}>Delete</button>
+        <button id={"delete-button"} onClick={() => handleDelete()}>
+          Delete
+        </button>
       )}
     </div>
   );
