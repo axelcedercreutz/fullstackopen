@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import blogService from "../services/blogs";
 import PropTypes from "prop-types";
 
-const Blog = React.forwardRef(({ blog, updateBlogs, username }) => {
+const Blog = React.forwardRef(({ blog, updateBlog, deleteBlog, username }) => {
   const [visible, setVisible] = useState(false);
 
-  const handleAddLike = async () => {
+  const handleAddLike = async (event) => {
+    event.preventDefault();
     const newBlog = {
       ...blog,
       likes: blog.likes + 1,
     };
-    await blogService.update(blog.id, newBlog);
-    updateBlogs();
+    await updateBlog(newBlog);
   };
 
   const handleDelete = async () => {
     if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
-      await blogService.deleteBlog(blog.id);
-      updateBlogs();
+      await deleteBlog(blog);
     }
   };
 
@@ -26,18 +24,18 @@ const Blog = React.forwardRef(({ blog, updateBlogs, username }) => {
       <p>{blog.url}</p>
       <div>
         {blog.likes}
-        <button onClick={(e) => handleAddLike(e)}>like</button>
+        <button onClick={(e) => handleAddLike(e)}>like blog</button>
       </div>
-      <p>{blog.user.name}</p>
-      {blog.user.username === username && (
-        <button onClick={(e) => handleDelete(e)}>Delete</button>
+      <p>{blog.user && blog.user.name}</p>
+      {blog.user && blog.user.username === username && (
+        <button onClick={() => handleDelete()}>Delete</button>
       )}
     </div>
   );
   return (
     <div style={{ border: "1px solid black", padding: "8px" }}>
       {blog.title} {blog.author}
-      <button onClick={() => setVisible(!visible)}>
+      <button onClick={() => setVisible(!visible)} className={"showBlogInfo"}>
         {visible ? "hide" : "view"}
       </button>
       {visible && renderInfo()}

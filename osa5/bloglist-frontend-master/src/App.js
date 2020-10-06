@@ -26,9 +26,29 @@ const App = () => {
     }
   }, []);
 
+  const handleUpdateBlog = async (blog) => {
+    await blogService.update(blog.id, blog);
+    updateBlogs();
+  };
+
+  const handleDeleteBlog = async (blog) => {
+    await blogService.deleteBlog(blog.id);
+    updateBlogs();
+  };
+
   const updateBlogs = async () => {
     const blogs = await blogService.getAll();
     setBlogs(blogs);
+  };
+
+  const handleAddBlog = async (blog) => {
+    await blogService.create(blog);
+    setNotificationMessage(`A new blog ${blog.title} by ${user.name} added`);
+    setNotificationType("success");
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 5000);
+    updateBlogs();
   };
 
   const handleLogin = async (event) => {
@@ -50,16 +70,6 @@ const App = () => {
         setNotificationMessage(null);
       }, 5000);
     }
-  };
-
-  const handleAddBlog = async (event, blog) => {
-    event.preventDefault();
-    setNotificationMessage(`A new blog ${blog.title} by ${user.name} added`);
-    setNotificationType("success");
-    setTimeout(() => {
-      setNotificationMessage(null);
-    }, 5000);
-    updateBlogs();
   };
 
   const renderUserInfo = () => (
@@ -103,7 +113,7 @@ const App = () => {
   const renderLoggedInPage = () => (
     <div>
       {renderUserInfo()}
-      <BlogForm handleAddBlog={(e, blog) => handleAddBlog(e, blog)} />
+      <BlogForm handleAddBlog={(blog) => handleAddBlog(blog)} />
       {renderBlogs()}
     </div>
   );
@@ -115,7 +125,8 @@ const App = () => {
         <Blog
           key={blog.id}
           blog={blog}
-          updateBlogs={() => updateBlogs()}
+          updateBlog={(blog) => handleUpdateBlog(blog)}
+          deleteBlog={(blog) => handleDeleteBlog(blog)}
           username={user.username}
         />
       ));
