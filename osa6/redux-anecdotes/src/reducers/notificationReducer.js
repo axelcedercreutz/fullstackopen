@@ -1,3 +1,15 @@
+let timerID;
+
+export const setNotification = (content, time) => {
+  return async (dispatch) => {
+    dispatch(addNotification(content));
+    clearTimeout(timerID);
+    timerID = setTimeout(() => {
+      dispatch(clearNotification());
+    }, time * 1000);
+  };
+};
+
 export const addNotification = (content) => {
   return {
     type: "ADD_NOTIFICATION",
