@@ -4,13 +4,13 @@ const mongoose = require("mongoose");
 const Book = require("./models/book");
 const Author = require("./models/author");
 const User = require("./models/user");
+require('dotenv').config()
 
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = "secret";
 
-const MONGODB_URI =
-  "mongodb+srv://fullstackopen_osa_3_axel:NU2DFA2rxqabcfh@cluster0.ur6j4.mongodb.net/graphql-db?retryWrites=true&w=majority";
+const MONGODB_URI = process.env.MONGODB_URI;
 /*
 let authors = [
   {
